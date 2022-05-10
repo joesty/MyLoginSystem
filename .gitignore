@@ -1,0 +1,5 @@
+src/db.sqlite3
+src/jobs/migrations/*
+src/jobs/__init__.py
+src/jobs/__pycache__/*
+src/config/__pycache__/*
