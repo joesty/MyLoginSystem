@@ -23,6 +23,7 @@ router = routers.DefaultRouter()
 
 router.register(r'users', views.UserViewSet)
 router.register(r'books', views.BooksViewSet)
+router.register(r'students', views.StudentViewSet)
 ##router.register(r'groups', views.GroupViewSet)
 
 

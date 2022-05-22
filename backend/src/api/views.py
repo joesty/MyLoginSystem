@@ -1,15 +1,15 @@
 from multiprocessing import context
 from django.contrib.auth.models import User
 from rest_framework import viewsets, generics,response
-from api.serializers import BooksSerializer, LoginSerializer, UserSerializer, RegisterSerializer
+from api.serializers import BooksSerializer, LoginSerializer, StudentSerializer, UserSerializer, RegisterSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.serializers import AuthTokenSerializer
-from django.contrib.auth import authenticate
-from api.models import Books
+from django.contrib.auth import authenticate, get_user_model
+from api.models import Books, Student
 
-
+User = get_user_model()
 
 class BooksViewSet(viewsets.ModelViewSet):
     queryset = Books.objects.all()
@@ -20,6 +20,10 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
+class StudentViewSet(viewsets.ModelViewSet):
+    serializer_class = StudentSerializer
+    queryset = Student.objects.all()
+
 
 class RegisterAPI(generics.GenericAPIView):
 
@@ -28,9 +32,9 @@ class RegisterAPI(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = User.objects.create_user(
-            serializer.data['username'],
+            #serializer.data['username'],
             serializer.data['email'],
-            ##serializer.data['password']
+            serializer.data['password']
         )
         user.set_password(serializer.data['password'])
         user.save()
